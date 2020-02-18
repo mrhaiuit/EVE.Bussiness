@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A2A6E63-7FA5-4D1A-B8EC-E29665B010F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EVE.Bussiness</RootNamespace>
+    <AssemblyName>EVE.Bussiness</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Solution\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Solution\packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Solution\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Solution\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Authentication\Implementations\LoginBE.cs" />
+    <Compile Include="Base\IBaseBE.cs" />
+    <Compile Include="Base\BaseBE.cs" />
+    <Compile Include="Authentication\Interfaces\ILoginBE.cs" />
+    <Compile Include="Catalog\Implementations\PositionBE.cs" />
+    <Compile Include="Catalog\Implementations\UserGroupEmployeeBE.cs" />
+    <Compile Include="Catalog\Implementations\DistrictBE.cs" />
+    <Compile Include="Catalog\Implementations\CountryBE.cs" />
+    <Compile Include="Catalog\Implementations\ProvinceBE.cs" />
+    <Compile Include="Catalog\Implementations\WardBE.cs" />
+    <Compile Include="Catalog\Implementations\EduProvinceBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalCriteriaBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalDetailBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalGuideBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalMasterBE.cs" />
+    <Compile Include="Catalog\Implementations\UserGroupFormBE.cs" />
+    <Compile Include="Catalog\Implementations\UserGroupBE.cs" />
+    <Compile Include="Catalog\Implementations\SchoolLevelBE.cs" />
+    <Compile Include="Catalog\Implementations\SchoolBE.cs" />
+    <Compile Include="Catalog\Implementations\LoginUserBE.cs" />
+    <Compile Include="Catalog\Implementations\FormsBE.cs" />
+    <Compile Include="Catalog\Implementations\FormGroupBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalTypeBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalStateBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalStandardBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalResultBE.cs" />
+    <Compile Include="Catalog\Implementations\EvalPeriodBE.cs" />
+    <Compile Include="Catalog\Implementations\EduDepartmentBE.cs" />
+    <Compile Include="Catalog\Implementations\EmployeeBE.cs" />
+    <Compile Include="Catalog\Interfaces\IPositionBE.cs" />
+    <Compile Include="Catalog\Interfaces\ICountryBE.cs" />
+    <Compile Include="Catalog\Interfaces\IProvinceBE.cs" />
+    <Compile Include="Catalog\Interfaces\IDistrictBE.cs" />
+    <Compile Include="Catalog\Interfaces\IWardBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEduDepartmentBE.cs" />
+    <Compile Include="Catalog\Interfaces\IUserGroupFormBE.cs" />
+    <Compile Include="Catalog\Interfaces\IUserGroupEmployeeBE.cs" />
+    <Compile Include="Catalog\Interfaces\IUserGroupBE.cs" />
+    <Compile Include="Catalog\Interfaces\ISchoolLevelBE.cs" />
+    <Compile Include="Catalog\Interfaces\ISchoolBE.cs" />
+    <Compile Include="Catalog\Interfaces\ILoginUserBE.cs" />
+    <Compile Include="Catalog\Interfaces\IFormsBE.cs" />
+    <Compile Include="Catalog\Interfaces\IFormGroupBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalTypeBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalStateBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalStandardBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalResultBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalPeriodBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalMasterBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalGuideBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalDetailBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEvalCriteriaBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEduProvinceBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEmployeeBE.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EVE.ApiModels\EVE.ApiModels.csproj">
+      <Project>{5c9c5935-e0ce-4e3b-b30e-b7d27d49a768}</Project>
+      <Name>EVE.ApiModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EVE.Common\EVE.Commons.csproj">
+      <Project>{3b38f3f7-1c80-4009-8d68-7d9e4d3520dc}</Project>
+      <Name>EVE.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EVE.Data\EVE.Data.csproj">
+      <Project>{6f4b542a-f584-43d9-a9b3-a703bab14d24}</Project>
+      <Name>EVE.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
