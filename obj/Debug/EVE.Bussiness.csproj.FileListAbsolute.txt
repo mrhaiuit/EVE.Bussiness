@@ -1,8 +1,0 @@
-E:\HAI\EVE\Backend\V2\Build\App.Config
-E:\HAI\EVE\Backend\V2\Build\EVE.Bussiness.dll.config
-E:\HAI\EVE\Backend\V2\Build\EVE.Bussiness.dll
-E:\HAI\EVE\Backend\V2\Build\EVE.Bussiness.pdb
-E:\HAI\EVE\Backend\V2\Components\EVE.Bussiness\obj\Debug\EVE.Bussiness.csprojAssemblyReference.cache
-E:\HAI\EVE\Backend\V2\Components\EVE.Bussiness\obj\Debug\EVE.Bussiness.csproj.CopyComplete
-E:\HAI\EVE\Backend\V2\Components\EVE.Bussiness\obj\Debug\EVE.Bussiness.dll
-E:\HAI\EVE\Backend\V2\Components\EVE.Bussiness\obj\Debug\EVE.Bussiness.pdb
