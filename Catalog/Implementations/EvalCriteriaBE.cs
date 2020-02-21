@@ -28,6 +28,18 @@ namespace EVE.Bussiness
             return null;
         }
 
+        public async Task<List<EvalCriteria>> GetByStandardId(EvalStandardBaseReq req)
+        {
+            var obj = await GetAsync(c => c.EvalStandardId == req.EvalStandardId);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj.ToList();
+            }
+
+            return null;
+        }
+
         public async Task<EvalGuide> GetGuideOfCriteria(GetGuideOfCriteriaReq req)
         {
             var obj = await EvalGuideBE.GetAsync(c => c.EvalCriteriaId == req.EvalCriteriaId && c.EvalResultCode == req.EvalResultCode);

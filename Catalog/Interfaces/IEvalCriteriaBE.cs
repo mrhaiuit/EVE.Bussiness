@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
 using EVE.Data;
 
@@ -8,5 +9,6 @@ namespace EVE.Bussiness
     {
         Task<EvalGuide> GetGuideOfCriteria(GetGuideOfCriteriaReq req);
         Task<EvalCriteria> GetById(EvalCriteriaBaseReq req);
+        Task<List<EvalCriteria>> GetByStandardId(EvalStandardBaseReq req);
     }
 }

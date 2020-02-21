@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
@@ -23,5 +24,28 @@ namespace EVE.Bussiness
             return null;
         }
 
+        public async Task<List<Ward>> GetByDistrictId(DistrictBaseReq req)
+        {
+            var obj = await GetAsync(c => c.DistrictId == req.DistrictId);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj.ToList();
+            }
+
+            return null;
+        }
+
+        public async Task<List<Ward>> GetByProvinceId(ProvinceBaseReq req)
+        {
+            var obj = await GetAsync(c => c.District.ProvinceId == req.ProvinceId);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj.ToList();
+            }
+
+            return null;
+        }
     }
 }

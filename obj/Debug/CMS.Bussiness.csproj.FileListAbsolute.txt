@@ -1,7 +1,0 @@
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\TTOS\bin\Debug\CMS.Bussiness.dll.config
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\TTOS\bin\Debug\CMS.Bussiness.dll
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\TTOS\bin\Debug\CMS.Bussiness.pdb
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\Bussiness\CMS.Bussiness\obj\Debug\CMS.Bussiness.csprojAssemblyReference.cache
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\Bussiness\CMS.Bussiness\obj\Debug\CMS.Bussiness.csproj.CopyComplete
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\Bussiness\CMS.Bussiness\obj\Debug\CMS.Bussiness.dll
-C:\DEV\Eval-Edu\CMS.NET\Implementation\TTOS_DEV\Components\Bussiness\CMS.Bussiness\obj\Debug\CMS.Bussiness.pdb
