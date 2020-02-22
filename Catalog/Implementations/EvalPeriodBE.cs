@@ -25,16 +25,15 @@ namespace EVE.Bussiness
             return null;
         }
 
-        public async Task<List<EvalPeriodViewRes>> GetByYearAndSchool(EvalPeriodGetByYearAndSchoolReq req)
+        public List<usp_GetPeriodByYearAndSchool_Result> GetByYearAndSchool(EvalPeriodGetByYearAndSchoolReq req)
         {
-            //var obj = await GetAsync(c => c.EvalPeriodId == req.EvalPeriodId);
-            //if (obj != null
-            //   && obj.Any())
-            //{
-            //    return obj.FirstOrDefault();
-            //}
-
-            return new List<EvalPeriodViewRes>();
+            var obj = _uoW.Context.usp_GetPeriodByYearAndSchool(req.Year, req.SchoolId);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj;
+            }
+            return null;
         }
         
     }
