@@ -37,6 +37,7 @@ namespace EVE.Bussiness
             if (obj != null
                && obj.Any())
             {
+                obj = obj.OrderBy(p => p.Idx);
                 var result = new List<EduLevel>();
                 if (userGroup.EduLevelCode == EnumEduLevelCode.Ministry)
                 {
@@ -56,7 +57,7 @@ namespace EVE.Bussiness
                     result = obj.Where(p => p.EduLevelCode == EnumEduLevelCode.School).ToList();
                 }
                 else
-                    result = obj.Where(p => p.EduLevelCode == EnumEduLevelCode.TAdmin).ToList();
+                    result = obj.ToList();
 
                 return result;
             }
