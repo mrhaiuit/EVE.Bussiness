@@ -11,7 +11,7 @@ namespace EVE.Bussiness
         public FormBE(IUnitOfWork<EVEEntities> uoW) : base(uoW)
         {
         }
-        public async Task<Form> GetById(FormsBaseReq req)
+        public async Task<Form> GetById(GetByUserGroupBaseReq req)
         {
             var obj = await GetAsync(c => c.FormCode == req.FormCode);
             if(obj != null

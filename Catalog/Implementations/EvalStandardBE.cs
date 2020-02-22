@@ -14,13 +14,25 @@ namespace EVE.Bussiness
         {
             EvalCriteriaBE = evalCriteriaBE;
         }
-        public async Task<EvalStandard> GetById(EvalStandardBaseReq req)
+        public async Task<EvalStandard> GetById( EvalStandardBaseReq req)
         {
             var obj = await GetAsync(c => c.EvalStandardId == req.EvalStandardId);
             if (obj != null
                && obj.Any())
             {
                 return obj.FirstOrDefault();
+            }
+
+            return null;
+        }
+
+        public async Task<List< EvalStandard>> GetByLevelAndType(EvalStandardGetByLevelAndTypeReq req)
+        {
+            var obj = await GetAsync(c => c.SchoolLevelCode == req.SchoolLevelCode && c.EvalTypeCode == req.EvalTypeCode);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj.ToList();
             }
 
             return null;

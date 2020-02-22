@@ -9,5 +9,6 @@ namespace EVE.Bussiness
     {
         Task<List<EvalCriteria>> GetEvalCriteriaByStandard(int standardId);
         Task<EvalStandard> GetById(EvalStandardBaseReq req);
+        Task<List<EvalStandard>> GetByLevelAndType(EvalStandardGetByLevelAndTypeReq req);
     }
 }

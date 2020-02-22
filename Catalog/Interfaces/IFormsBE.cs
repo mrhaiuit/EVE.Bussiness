@@ -7,6 +7,6 @@ namespace EVE.Bussiness
     public interface IFormsBE : IBaseBE<Form>
     {
 
-        Task<Form> GetById(FormsBaseReq req);
+        Task<Form> GetById(GetByUserGroupBaseReq req);
     }
 }

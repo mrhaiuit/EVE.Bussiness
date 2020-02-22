@@ -65,6 +65,7 @@
     <Compile Include="Base\IBaseBE.cs" />
     <Compile Include="Base\BaseBE.cs" />
     <Compile Include="Authentication\Interfaces\ILoginBE.cs" />
+    <Compile Include="Catalog\Implementations\EduLevelBE.cs" />
     <Compile Include="Catalog\Implementations\PositionBE.cs" />
     <Compile Include="Catalog\Implementations\UserGroupEmployeeBE.cs" />
     <Compile Include="Catalog\Implementations\DistrictBE.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Catalog\Implementations\EvalPeriodBE.cs" />
     <Compile Include="Catalog\Implementations\EduDepartmentBE.cs" />
     <Compile Include="Catalog\Implementations\EmployeeBE.cs" />
+    <Compile Include="Catalog\Interfaces\IEduLevelBE.cs" />
     <Compile Include="Catalog\Interfaces\IPositionBE.cs" />
     <Compile Include="Catalog\Interfaces\ICountryBE.cs" />
     <Compile Include="Catalog\Interfaces\IProvinceBE.cs" />
