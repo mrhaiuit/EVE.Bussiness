@@ -59,9 +59,9 @@ namespace EVE.Bussiness
 
         }
 
-        public async Task<List<UserGroup_Employee>> GetUserGroupByUserName(string userName)
+        public async Task<List<UserGroup_Employee>> GetUserGroupByUserName(GetUserGroupByUserNameReq req)
         {
-            var employee = (await GetAsync(p => p.UserName == userName))?.FirstOrDefault();
+            var employee = (await GetAsync(p => p.UserName == req.UserName))?.FirstOrDefault();
             if (employee == null)
                 return null;
             var obj = await UserGroupEmployeeBE.GetAsync(p => p.EmployeeId == employee.EmployeeId);

@@ -11,6 +11,6 @@ namespace EVE.Bussiness
 
         Task<bool> SaveLogin(LoginUser logonUser);
 
-        Task<List<UserGroup_Employee>> GetUserGroupByUserName(string userName);
+        Task<List<UserGroup_Employee>> GetUserGroupByUserName(GetUserGroupByUserNameReq req);
     }
 }
