@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
@@ -23,13 +24,13 @@ namespace EVE.Bussiness
             return null;
         }
 
-        public async Task<Position> GetByEduLevel(PositionByEduLevelReq req)
+        public async Task<List<Position>> GetByEduLevel(PositionByEduLevelReq req)
         {
             var obj = await GetAsync(c => c.EduLevelCode == req.EduLevelCode);
             if (obj != null
                && obj.Any())
             {
-                return obj.FirstOrDefault();
+                return obj.ToList();
             }
 
             return null;
