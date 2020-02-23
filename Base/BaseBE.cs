@@ -23,11 +23,20 @@ namespace EVE.Bussiness
         #region Get
 
         public async Task<IEnumerable<T>> GetAllAsync() => _repository.GetAll();
+        public IEnumerable<T> GetAll() => _repository.GetAll();
 
         public async Task<T> GetByIdAsync(object id) => _repository.GetById(id);
 
+        public T GetById(object id) => _repository.GetById(id);
+
         public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter,
                                                    string includeProperties = "")
+        {
+            return _repository.Get(filter, null, includeProperties);
+        }
+
+        public IEnumerable<T> Get(Expression<Func<T, bool>> filter,
+                                                 string includeProperties = "")
         {
             return _repository.Get(filter, null, includeProperties);
         }

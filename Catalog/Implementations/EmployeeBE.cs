@@ -13,11 +13,26 @@ namespace EVE.Bussiness
         {
         }
 
-        new public void Insert(Employee obj)
+        new public bool Insert(Employee obj)
         {
+            var objAvaiable = Get(p => p.UserName == obj.UserName);
+            if (objAvaiable != null || objAvaiable.Any())
+                return false;
             obj.Password = obj.Password.EncodePassword();
             _repository.Insert(obj);
-            _uoW.Save();
+            return _uoW.Save();
+        }
+
+        public async Task<Employee> GetByUserName( UserNameReq req)
+        {
+            var obj = await GetAsync(c => c.UserName == req.UserName);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj.FirstOrDefault();
+            }
+
+            return null;
         }
 
         public async Task<Employee> GetById(EmployeeBaseReq req)

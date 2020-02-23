@@ -11,11 +11,17 @@ namespace EVE.Bussiness
         #region Get
 
         Task<IEnumerable<T>> GetAllAsync();
+        IEnumerable<T> GetAll();
 
         Task<T> GetByIdAsync(object id);
 
+        T GetById(object id);
+
         Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter,
                                       string includeProperties = "");
+
+        IEnumerable<T> Get(Expression<Func<T, bool>> filter,
+                                     string includeProperties = "");
 
         Task<T> FindOneAsync(Expression<Func<T, bool>> filter,
                              string includeProperties = "");
