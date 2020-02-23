@@ -40,7 +40,8 @@ namespace EVE.Bussiness
             if (employee == null)
                 return null;
             var result = new List<School>();
-            if (userGroup.EduLevelCode == EnumEduLevelCode.Ministry)
+            if (userGroup.EduLevelCode == EnumEduLevelCode.Ministry
+                || userGroup.EduLevelCode == EnumEduLevelCode.TAdmin)
             {
                 result = (await GetAllAsync())?.ToList();
             }

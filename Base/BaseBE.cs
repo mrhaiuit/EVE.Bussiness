@@ -42,22 +42,22 @@ namespace EVE.Bussiness
 
         #region Actions
 
-        public void Delete(T obj)
+        public bool Delete(T obj)
         {
             _repository.Delete(obj);
-            _uoW.Save();
+            return _uoW.Save();
         }
 
-        public void Insert(T obj)
+        public bool Insert(T obj)
         {
             _repository.Insert(obj);
-            _uoW.Save();
+           return _uoW.Save();
         }
 
-        public void Update(T obj)
+        public bool Update(T obj)
         {
             _repository.Update(obj);
-            _uoW.Save();
+           return _uoW.Save();
         }
 
         public void SubmitChange()

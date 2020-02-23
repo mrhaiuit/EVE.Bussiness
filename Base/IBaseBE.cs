@@ -24,11 +24,11 @@ namespace EVE.Bussiness
 
         #region Actions
 
-        void Delete(T obj);
+        bool Delete(T obj);
 
-        void Insert(T obj);
+        bool Insert(T obj);
 
-        void Update(T obj);
+        bool Update(T obj);
 
         void SubmitChange();
 

@@ -39,7 +39,8 @@ namespace EVE.Bussiness
             {
                 obj = obj.OrderBy(p => p.Idx);
                 var result = new List<EduLevel>();
-                if (userGroup.EduLevelCode == EnumEduLevelCode.Ministry)
+                if (userGroup.EduLevelCode == EnumEduLevelCode.Ministry
+                || userGroup.EduLevelCode == EnumEduLevelCode.TAdmin)
                 {
                     result = obj.ToList();
                 }

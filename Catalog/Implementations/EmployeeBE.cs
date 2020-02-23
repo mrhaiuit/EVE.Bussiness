@@ -12,6 +12,14 @@ namespace EVE.Bussiness
         public EmployeeBE(IUnitOfWork<EVEEntities> uoW) : base(uoW)
         {
         }
+
+        new public void Insert(Employee obj)
+        {
+            obj.Password = obj.Password.EncodePassword();
+            _repository.Insert(obj);
+            _uoW.Save();
+        }
+
         public async Task<Employee> GetById(EmployeeBaseReq req)
         {
             var obj = await GetAsync(c => c.EmployeeId == req.EmployeeId);

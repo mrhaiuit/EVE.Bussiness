@@ -11,12 +11,15 @@ namespace EVE.Bussiness
     public class LoginBE : BaseBE<Employee>, ILoginBE
     {
         private IUserGroupEmployeeBE UserGroupEmployeeBE { get; set; }
+        private IUserGroupBE UserGroupBE { get; set; }
         private IEmployeeBE EmployeeBE { get; set; }
         public LoginBE(IUnitOfWork<EVEEntities> uoW, 
-            IUserGroupEmployeeBE userGroupEmployeeBE
+            IUserGroupEmployeeBE userGroupEmployeeBE,
+            IUserGroupBE userGroupBE
             ) : base(uoW)
         {
             UserGroupEmployeeBE = userGroupEmployeeBE;
+            UserGroupBE = userGroupBE;
         }
 
         #region ILogonUserBE Members
@@ -59,7 +62,7 @@ namespace EVE.Bussiness
 
         }
 
-        public async Task<List<UserGroup_Employee>> GetUserGroupByUserName(GetUserGroupByUserNameReq req)
+        public async Task<List<UserGroup>> GetUserGroupByUserName(GetUserGroupByUserNameReq req)
         {
             var employee = (await GetAsync(p => p.UserName == req.UserName))?.FirstOrDefault();
             if (employee == null)
@@ -68,7 +71,9 @@ namespace EVE.Bussiness
             if (obj != null
                && obj.Any())
             {
-                return obj.ToList();
+                var lstUserGroupCode = obj.Select(q => q.UserGroupCode).ToList();
+                var usergroups = await UserGroupBE.GetAsync(p => lstUserGroupCode.Contains(p.UserGroupCode));
+                return usergroups.ToList();
             }
 
             return null;
