@@ -29,7 +29,9 @@ namespace EVE.Bussiness
             try
             {
                 req.PassWord = req.PassWord.EncodePassword();
-                var users = await GetAsync(c => c.UserName == req.UserName && c.Password == req.PassWord);
+                var users = await GetAsync(c => c.UserName == req.UserName
+                && c.Password == req.PassWord
+                && c.Active == true);
                 if (users != null
                    && users.Any())
                 {
