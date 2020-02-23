@@ -27,7 +27,7 @@ namespace EVE.Bussiness
 
         public List<usp_GetPeriodByYearAndSchool_Result> GetByYearAndSchool(EvalPeriodGetByYearAndSchoolReq req)
         {
-            var obj = _uoW.Context.usp_GetPeriodByYearAndSchool(req.Year, req.SchoolId);
+            var obj = _uoW.Context.usp_GetPeriodByYearAndSchool(req.Year, req.SchoolId, req.EvalTypeCode);
             if (obj != null
                && obj.Any())
             {
