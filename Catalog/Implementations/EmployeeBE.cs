@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Authentication.Request;
+using EVE.ApiModels.Catalog;
 using EVE.Commons;
 using EVE.Data;
 
@@ -9,8 +11,33 @@ namespace EVE.Bussiness
 {
     public class EmployeeBE : BaseBE<Employee>, IEmployeeBE
     {
-        public EmployeeBE(IUnitOfWork<EVEEntities> uoW) : base(uoW)
+        private IUserGroupBE UserGroupBE { get; set; }
+        public EmployeeBE(IUnitOfWork<EVEEntities> uoW,
+                            IUserGroupBE userGroupBE
+                            ) : base(uoW)
         {
+            UserGroupBE = userGroupBE;
+        }
+
+        public async Task<List<Employee>> GetByUserGroupEmployee(UserGroupEmployeeReq req)
+        {
+            var userGroup = await UserGroupBE.GetById(new UserGroupBaseReq() { UserGroupCode = req.UserGroupCode });
+            if (userGroup == null)
+                return null;
+            var employee = await GetById(new EmployeeBaseReq { EmployeeId = req.EmpoyeeId });
+            if (employee == null)
+                return null;
+            var result = new List<Employee>();
+            if (userGroup.EduLevelCode == EnumEduLevelCode.School)
+            {
+                if (userGroup.UserGroupCode == EnumUserGroup.SchoolTeacher)
+                    result = (await GetAsync(p => p.SchoolId == employee.SchoolId && p.SchoolDepartmentId == employee.SchoolDepartmentId))?.ToList();
+                else
+                    result = (await GetAsync(p => p.SchoolId == employee.SchoolId))?.ToList();
+            }
+            else
+                result = null;
+            return result;
         }
 
         new public bool Insert(Employee obj)
