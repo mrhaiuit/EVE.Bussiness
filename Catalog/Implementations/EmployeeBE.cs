@@ -16,7 +16,7 @@ namespace EVE.Bussiness
         new public bool Insert(Employee obj)
         {
             var objAvaiable = Get(p => p.UserName == obj.UserName);
-            if (objAvaiable != null || objAvaiable.Any())
+            if (objAvaiable != null && objAvaiable.Any())
                 return false;
             obj.Password = obj.Password.EncodePassword();
             _repository.Insert(obj);
