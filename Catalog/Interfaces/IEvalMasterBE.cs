@@ -7,7 +7,9 @@ namespace EVE.Bussiness
 {
     public interface IEvalMasterBE : IBaseBE<EvalMaster>
     {
-        Task<List<EvalDetail>> GetEvalDetailByMasterId(int MassterId);
+        Task<EvalMaster> GetByPeriodAndEmployee(EvalMasterGetByPeriodAndEmployeeReq req);
+        Task<List<EvalDetail>> GetEvalDetailByMasterId(EvalMasterBaseReq req);
         Task<EvalMaster> GetById(EvalMasterBaseReq req);
+        Task<List<EvalDetail>> ExeEvalDetailByMasterId(ExeEvalDetailByMasterIdReq req);
     }
 }
