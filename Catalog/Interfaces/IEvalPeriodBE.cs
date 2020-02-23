@@ -8,6 +8,7 @@ namespace EVE.Bussiness
 {
     public interface IEvalPeriodBE : IBaseBE<EvalPeriod>
     {
+        Task<List<EvalPeriod>> GetByUserGroupEmployee(UserGroupEmployeeReq req);
         List<usp_GetPeriodByYearAndSchool_Result> GetByYearAndSchool(EvalPeriodGetByYearAndSchoolReq req);
         Task<EvalPeriod> GetById(EvalPeriodBaseReq req);
     }
