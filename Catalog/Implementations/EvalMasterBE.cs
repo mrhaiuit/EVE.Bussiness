@@ -123,6 +123,7 @@ namespace EVE.Bussiness
                     var objDt = new EvalDetail()
                     {
                         EvalMasterId = evalMaster.EvalMasterId,
+                        EvalStandardId = item.EvalStandardId,
                         EvalStandardName = (await EvalStandardBE.GetById(new EvalStandardBaseReq() { EvalStandardId = item.EvalStandardId.CheckInt() }))?.EvalStandardName,
                         EvalCriteriaId = item.EvalCriteriaId,
                         EvalCriteriaName = item.EvalCriteriaName,
