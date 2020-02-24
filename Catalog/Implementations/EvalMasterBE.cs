@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
 using EVE.Data;
+using ExtensionMethods;
 
 namespace EVE.Bussiness
 {
@@ -122,7 +123,10 @@ namespace EVE.Bussiness
                     var objDt = new EvalDetail()
                     {
                         EvalMasterId = evalMaster.EvalMasterId,
-                        EvalCriteriaId = item.EvalCriteriaId
+                        EvalStandardName = (await EvalStandardBE.GetById(new EvalStandardBaseReq() { EvalStandardId = item.EvalStandardId.CheckInt() }))?.EvalStandardName,
+                        EvalCriteriaId = item.EvalCriteriaId,
+                        EvalCriteriaName = item.EvalCriteriaName,
+
                     };
                     EvalDetailBE.Insert(objDt);
                 }
