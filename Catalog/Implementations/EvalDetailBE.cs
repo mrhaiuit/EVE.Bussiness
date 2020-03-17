@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
 using EVE.ApiModels.Catalog.Response;
 using EVE.Data;
+using EVE.Commons;
 
 namespace EVE.Bussiness
 {
@@ -40,7 +41,8 @@ namespace EVE.Bussiness
                 p.EvalResultCode,
                 p.EvalMaster.EvalPeriod.Year,
                 p.Attachment
-            }).ToList();
+            }
+            ).ToList();
 
             var lstResult = await EvalResultBE.GetAllAsync();
             if (obj != null
@@ -58,5 +60,40 @@ namespace EVE.Bussiness
             return null;
         }
 
+        public async Task<string> GetGroupResultByYearAndUser(EvalDetailByYearAndUserReq req)
+        {
+            var objGroups = (this._uoW.Context.EvalDetails.Where(c => c.EvalMaster.EvalPeriod.Year == req.Year
+                                                                && c.EvalCriteriaId == req.EvalCriteriaId
+                                                                && c.EvalMaster.EvalEmployeeId != req.EmployeeId
+                                                                && c.EvalMaster.BeEvalEmployeeId == req.EmployeeId))
+            .GroupBy(p => new
+            {
+                p.EvalResultCode
+            })
+            .Select(p => new { Key = p.Key.EvalResultCode, Value = p.Count() })
+            .ToList();
+
+            if (objGroups == null)
+                return "";
+
+            string result = "";
+            foreach (var item in _uoW.Context.EvalResults.OrderBy(p=>p.Idx))
+            {
+                var s = item.EvalResultCode;
+                if (objGroups.Where(p => p.Key.TrimEx() == item.EvalResultCode).Any())
+                    result += $"{item.EvalResultName} {objGroups.FirstOrDefault(p => p.Key == item.EvalResultCode)?.Value}<br> ";
+                else
+                    result += $"{item.EvalResultName} {0}<br> ";
+            }
+
+            return result;
+        }
+
+    }
+
+    public class EvalResultCount
+    {
+        public string Key { get; set; }
+        public int Value { get; set; }
     }
 }

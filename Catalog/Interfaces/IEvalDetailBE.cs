@@ -10,5 +10,6 @@ namespace EVE.Bussiness
     {
         Task<List<EvalDetailByYearAndUserRes>> GetByByYearAndUser(EvalDetailByYearAndUserReq req);
         Task<EvalDetail> GetById(EvalDetailBaseReq req);
+        Task<string> GetGroupResultByYearAndUser(EvalDetailByYearAndUserReq req);
     }
 }
