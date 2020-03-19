@@ -30,9 +30,9 @@ namespace EVE.Bussiness
             return null;
         }
 
-        public async Task<List<Form>> GetFormsByUserGroup(string userGroup)
+        public async Task<List<Form>> GetFormsByUserGroup(UserGroupBaseReq userGroup)
         {
-            var obj = await UserGroupFormBE.GetAsync(c => c.UserGroupCode == userGroup);
+            var obj = await UserGroupFormBE.GetAsync(c => c.UserGroupCode == userGroup.UserGroupCode);
             if (obj != null && obj.Any())
             {
                 var lstForm = obj.Select(q => q.FormCode).ToList();

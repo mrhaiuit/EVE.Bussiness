@@ -7,7 +7,7 @@ namespace EVE.Bussiness
 {
     public interface IUserGroupBE : IBaseBE<UserGroup>
     {
-        Task<List<Form>> GetFormsByUserGroup(string userGroup);
+        Task<List<Form>> GetFormsByUserGroup(UserGroupBaseReq userGroup);
         Task<UserGroup> GetById(UserGroupBaseReq req);
     }
 }
