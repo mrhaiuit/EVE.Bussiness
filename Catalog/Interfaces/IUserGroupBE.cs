@@ -9,5 +9,6 @@ namespace EVE.Bussiness
     {
         Task<List<Form>> GetFormsByUserGroup(UserGroupBaseReq userGroup);
         Task<UserGroup> GetById(UserGroupBaseReq req);
+        Task<List<UserGroup>> GetByUserGroup(UserGroupBaseReq userGroup);
     }
 }
