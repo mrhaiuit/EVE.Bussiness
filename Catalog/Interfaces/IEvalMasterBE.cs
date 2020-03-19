@@ -13,5 +13,7 @@ namespace EVE.Bussiness
         Task<List<EvalDetail>> GetEvalDetailByMasterId(EvalMasterBaseReq req);
         Task<EvalMaster> GetById(EvalMasterBaseReq req);
         Task<List<EvalDetail>> ExeEvalDetailByMasterId(ExeEvalDetailByMasterIdReq req);
+        Task<bool> CompleteFinal(EvalMasterBaseReq req);
+        Task<bool> CancelFinal(EvalMasterBaseReq req);
     }
 }

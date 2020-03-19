@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
@@ -15,7 +16,17 @@ namespace EVE.Bussiness
             unitOfWork = uoW;
         }
 
+        public async Task<List<usp_rpt_BM02_Result>> rptBm02(BM2Req req)
+        {
+            var result = unitOfWork.Context.usp_rpt_BM02(req.PeriodId, req.EmployeeId);
+            return result;
+        }
 
+        public async Task<List<usp_rpt_BM04_Result>> rptBm04(BM4Req req)
+        {
+            var result = unitOfWork.Context.usp_rpt_BM04(req.SchoolId, req.PeriodId);
+            return result;
+        }
 
     }
 }

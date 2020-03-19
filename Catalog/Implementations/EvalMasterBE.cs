@@ -41,6 +41,34 @@ namespace EVE.Bussiness
             return null;
         }
 
+        public async Task<bool> CompleteFinal(EvalMasterBaseReq req)
+        {
+            var obj = await GetAsync(c => c.EvalMasterId == req.EvalMasterId);
+            if (obj != null
+               && obj.Any())
+            {
+                var update = obj.FirstOrDefault();
+                update.IsFinal = true;
+                return    Update(update); 
+            }
+
+            return false;
+        }
+
+        public async Task<bool> CancelFinal(EvalMasterBaseReq req)
+        {
+            var obj = await GetAsync(c => c.EvalMasterId == req.EvalMasterId);
+            if (obj != null
+               && obj.Any())
+            {
+                var update = obj.FirstOrDefault();
+                update.IsFinal = false;
+                return Update(update);
+            }
+
+            return false;
+        }
+
         public async Task<EvalMaster> GetPeriodAndEmployee(EvalMasterBaseReq req)
         {
             var obj = await GetAsync(c => c.EvalMasterId == req.EvalMasterId);
