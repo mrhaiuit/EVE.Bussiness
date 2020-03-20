@@ -28,5 +28,11 @@ namespace EVE.Bussiness
             return result;
         }
 
+        public async Task<List<usp_rpt_BM05_Result>> rptBm05(EvalPeriodBaseReq req)
+        {
+            var result = unitOfWork.Context.usp_rpt_BM05( req.EvalPeriodId);
+            return result;
+        }
+
     }
 }

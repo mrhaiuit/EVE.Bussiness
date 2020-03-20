@@ -10,5 +10,6 @@ namespace EVE.Bussiness
         Task<List<usp_rpt_BM02_Result>> rptBm02(BM2Req req);
 
         Task<List<usp_rpt_BM04_Result>> rptBm04(BM4Req req);
+        Task<List<usp_rpt_BM05_Result>> rptBm05(EvalPeriodBaseReq req);
     }
 }
