@@ -16,18 +16,21 @@ namespace EVE.Bussiness
         private IEvalPeriodBE EvalPeriodBE { get; set; }
         private IEvalStandardBE EvalStandardBE { get; set; }
         private IEvalResultBE EvalResultBE { get; set; }
+        private ISchoolBE SchoolBE { get; set; }
         public EvalMasterBE(IUnitOfWork<EVEEntities> uoW,
                             IEvalDetailBE evalDetailBE,
                             IEvalCriteriaBE evalCriteriaBE,
                             IEvalPeriodBE evalPeriodBE,
                             IEvalStandardBE evalStandardBE,
-                            IEvalResultBE evalResultBE) : base(uoW)
+                            IEvalResultBE evalResultBE,
+                            ISchoolBE schoolBE) : base(uoW)
         {
             EvalDetailBE = evalDetailBE;
             EvalCriteriaBE = evalCriteriaBE;
             EvalPeriodBE = evalPeriodBE;
             EvalStandardBE = evalStandardBE;
             EvalResultBE = evalResultBE;
+            SchoolBE = schoolBE;
         }
         public async Task<EvalMaster> GetById(EvalMasterBaseReq req)
         {
@@ -190,8 +193,10 @@ namespace EVE.Bussiness
                 var period = await EvalPeriodBE.GetById(new EvalPeriodBaseReq() { EvalPeriodId = evalMaster.EvalPeriodId ?? 0 });
                 if (period == null)
                     return null;
-                var evalStandard = (await EvalStandardBE.GetAsync(p => p.EvalTypeCode == period.EvalTypeCode))
-                    ?.Select(p => p.EvalStandardId).ToList();
+                var periodId = period.SchoolId ?? 0;
+                var school = await SchoolBE.GetById(new SchoolBaseReq() { SchoolId = periodId });
+                var evalStandard = (await EvalStandardBE.GetAsync(p => p.EvalTypeCode == period.EvalTypeCode
+                && p.SchoolLevelCode == school.SchoolLevelCode))?.Select(p => p.EvalStandardId).ToList();
                 if (evalStandard == null)
                     return null;
                 var caterials = await EvalCriteriaBE.GetAsync(p => p.Active != false

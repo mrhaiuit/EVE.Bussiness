@@ -8,6 +8,7 @@ namespace EVE.Bussiness
 {
     public interface IEvalDetailBE : IBaseBE<EvalDetail>
     {
+        Task<EvalResult> GetEverageResultByYearAndUser(EvalDetailByYearAndUserReq req);
         Task<List<EvalDetailByYearAndUserRes>> GetByByYearAndUser(EvalDetailByYearAndUserReq req);
         Task<EvalDetail> GetById(EvalDetailBaseReq req);
         Task<string> GetGroupResultByYearAndUser(EvalDetailByYearAndUserReq req);
