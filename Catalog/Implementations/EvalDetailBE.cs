@@ -82,7 +82,8 @@ namespace EVE.Bussiness
             var Kha = objGroups.Where(p => p.EvalResultCode == EnumEvalResult.Kha).Count();
             var Tot = objGroups.Where(p => p.EvalResultCode == EnumEvalResult.Tot).Count();
             var value = (Dat + Kha * 2 + Tot * 3) / (KhongDat + Kha + Dat + Tot);
-            return this._uoW.Context.EvalResults.FirstOrDefault(p => p.Idx == value);
+            var result = (await EvalResultBE.GetAsync(p => p.Idx == value))?.FirstOrDefault();
+            return result;
             
         }
 
