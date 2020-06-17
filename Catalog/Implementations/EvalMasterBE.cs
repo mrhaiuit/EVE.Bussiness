@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
 using EVE.ApiModels.Catalog.Response;
+using EVE.Commons;
 using EVE.Data;
 using ExtensionMethods;
 
@@ -35,7 +36,7 @@ namespace EVE.Bussiness
         public async Task<EvalMaster> GetById(EvalMasterBaseReq req)
         {
             var obj = await GetAsync(c => c.EvalMasterId == req.EvalMasterId);
-            if(obj != null
+            if (obj != null
                && obj.Any())
             {
                 return obj.FirstOrDefault();
@@ -52,7 +53,7 @@ namespace EVE.Bussiness
             {
                 var update = obj.FirstOrDefault();
                 update.IsFinal = true;
-                return    Update(update); 
+                return Update(update);
             }
 
             return false;
@@ -152,7 +153,7 @@ namespace EVE.Bussiness
                     }
                 }
             }
-            catch 
+            catch
             {
                 return new EvalResultSumaryRes();
             }
@@ -200,7 +201,7 @@ namespace EVE.Bussiness
                 if (evalStandard == null)
                     return null;
                 var caterials = await EvalCriteriaBE.GetAsync(p => p.Active != false
-                                                                    && evalStandard.Contains(p.EvalStandardId??0)); 
+                                                                    && evalStandard.Contains(p.EvalStandardId ?? 0));
                 if (caterials == null)
                     return null;
                 foreach (var item in caterials)
@@ -224,24 +225,49 @@ namespace EVE.Bussiness
             }
         }
 
-        public async Task <List<EvalMaster>> GetSelfEvalByUserId(EvalMasterGetByUserIdReq req)
+        public async Task<List<EvalMasterGetByUserIdRes>> GetSelfEvalByUserId(EvalMasterGetByUserIdReq req)
         {
             if (req == null)
                 return null;
-            var obj = await GetAsync(c => c.BeEvalEmployeeId == req.EmployeeId
+            var obj = (await GetAsync(c => c.BeEvalEmployeeId == req.EmployeeId
                                         && c.EvalEmployeeId == req.EmployeeId
-                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0));
-
+                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0)))
+                                        .Select(p => new EvalMasterGetByUserIdRes()
+                                        {
+                                            MasterId = p.EvalMasterId,
+                                            Year = p.EvalPeriod?.Year,
+                                            FromDate = p.EvalPeriod.FromDate,
+                                            ToDate = p.EvalPeriod.ToDate,
+                                            Period = p.EvalPeriod.PeriodName,
+                                            TotalEval = p.EvalDetails.Where(q => !q.EvalResultCode.IsNullOrEmpty()).Count(),
+                                            EvalEmployee = p.Employee.EmployeeName,
+                                            BeEvalEmployee = p.Employee1.EmployeeName,
+                                            Approveed = p.IsFinal,
+                                            Class = p.EvalResultCode
+                                        });
 
             return obj.ToList();
         }
 
-        public async Task<List<EvalMaster>> GetEvalByUserId(EvalMasterGetByUserIdReq req)
+        public async Task<List<EvalMasterGetByUserIdRes>> GetEvalByUserId(EvalMasterGetByUserIdReq req)
         {
             if (req == null)
                 return null;
-            var obj = await GetAsync(c => c.EvalEmployeeId == req.EmployeeId
-                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0));
+            var obj = (await GetAsync(c => c.EvalEmployeeId == req.EmployeeId
+                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0)))
+                                        .Select(p => new EvalMasterGetByUserIdRes()
+                                        {
+                                            MasterId = p.EvalMasterId,
+                                            Year = p.EvalPeriod?.Year,
+                                            FromDate = p.EvalPeriod.FromDate,
+                                            ToDate = p.EvalPeriod.ToDate,
+                                            Period = p.EvalPeriod.PeriodName,
+                                            TotalEval = p.EvalDetails.Where(q => !q.EvalResultCode.IsNullOrEmpty()).Count(),
+                                            EvalEmployee = p.Employee.EmployeeName,
+                                            BeEvalEmployee = p.Employee1.EmployeeName,
+                                            Approveed = p.IsFinal,
+                                            Class = p.EvalResultCode
+                                        }); ;
 
             return obj.ToList();
         }

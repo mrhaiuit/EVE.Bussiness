@@ -16,8 +16,8 @@ namespace EVE.Bussiness
         Task<bool> CompleteFinal(EvalMasterBaseReq req);
         Task<bool> CancelFinal(EvalMasterBaseReq req);
 
-        Task<List<EvalMaster>> GetSelfEvalByUserId(EvalMasterGetByUserIdReq req);
+        Task<List<EvalMasterGetByUserIdRes>> GetSelfEvalByUserId(EvalMasterGetByUserIdReq req);
 
-        Task<List<EvalMaster>> GetEvalByUserId(EvalMasterGetByUserIdReq req);
+        Task<List<EvalMasterGetByUserIdRes>> GetEvalByUserId(EvalMasterGetByUserIdReq req);
     }
 }
