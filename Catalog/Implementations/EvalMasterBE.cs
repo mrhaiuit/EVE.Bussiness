@@ -274,12 +274,12 @@ namespace EVE.Bussiness
 
        public async Task<bool> IsAllowEdit(EvalMasterBaseReq req)
         {
-            var evalMaster = await GetByIdAsync(req.EvalMasterId);
+            var evalMaster = (from mt in (await GetAsync(p => p.EvalMasterId == req.EvalMasterId))
+                             join p in EvalPeriodBE.GetAll() on mt.EvalPeriodId equals p.EvalPeriodId
+                             select new { mt.IsFinal, p.ToDate }).FirstOrDefault();
             if (evalMaster == null)
                 return false;
-            if (evalMaster.IsFinal ?? false)
-                return true;
-            if (DateTime.Now > evalMaster.EvalPeriod?.ToDate.CheckDateEx())
+            if ((evalMaster.IsFinal ?? false) || DateTime.Now > evalMaster.ToDate.CheckDateEx())
                 return false;
             return true;
         }
