@@ -19,5 +19,7 @@ namespace EVE.Bussiness
         Task<List<EvalMasterGetByUserIdRes>> GetSelfEvalByUserId(EvalMasterGetByUserIdReq req);
 
         Task<List<EvalMasterGetByUserIdRes>> GetEvalByUserId(EvalMasterGetByUserIdReq req);
+
+        Task<bool> IsAllowEdit(EvalMasterBaseReq req);
     }
 }

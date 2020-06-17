@@ -272,6 +272,17 @@ namespace EVE.Bussiness
             return obj.ToList();
         }
 
+       public async Task<bool> IsAllowEdit(EvalMasterBaseReq req)
+        {
+            var evalMaster = await GetByIdAsync(req.EvalMasterId);
+            if (evalMaster == null)
+                return false;
+            if (evalMaster.IsFinal ?? false)
+                return true;
+            if (DateTime.Now > evalMaster.EvalPeriod?.ToDate.CheckDateEx())
+                return false;
+            return true;
+        }
 
 
     }
