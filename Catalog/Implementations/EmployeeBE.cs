@@ -30,9 +30,16 @@ namespace EVE.Bussiness
             var result = new List<Employee>();
             if (userGroup.EduLevelCode == EnumEduLevelCode.School)
             {
-                if (userGroup.UserGroupCode == EnumUserGroup.SchoolTeacher)
-                    result = (await GetAsync(p => p.SchoolId == employee.SchoolId && p.SchoolDepartmentId == employee.SchoolDepartmentId))?.ToList();
+                if (userGroup.UserGroupCode == EnumUserGroup.SchoolTeacher
+                    || userGroup.UserGroupCode == EnumUserGroup.LeadSubject)
+                    result = (await GetAsync(p => p.SchoolId == employee.SchoolId
+                                                && p.SchoolDepartmentId == employee.SchoolDepartmentId
+                                                && p.UserGroupCode == EnumUserGroup.SchoolTeacher))?.ToList();
+                else if (userGroup.UserGroupCode == EnumUserGroup.SchoolPrimary)
+                    result = (await GetAsync(p => p.SchoolId == employee.SchoolId
+                                                && p.UserGroupCode == EnumUserGroup.SchoolTeacher))?.ToList();
                 else
+
                     result = (await GetAsync(p => p.SchoolId == employee.SchoolId))?.ToList();
             }
             else

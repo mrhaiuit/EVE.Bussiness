@@ -224,5 +224,29 @@ namespace EVE.Bussiness
             }
         }
 
+        public async Task <List<EvalMaster>> GetSelfEvalByUserId(EvalMasterGetByUserIdReq req)
+        {
+            if (req == null)
+                return null;
+            var obj = await GetAsync(c => c.BeEvalEmployeeId == req.EmployeeId
+                                        && c.EvalEmployeeId == req.EmployeeId
+                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0));
+
+
+            return obj.ToList();
+        }
+
+        public async Task<List<EvalMaster>> GetEvalByUserId(EvalMasterGetByUserIdReq req)
+        {
+            if (req == null)
+                return null;
+            var obj = await GetAsync(c => c.EvalEmployeeId == req.EmployeeId
+                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0));
+
+            return obj.ToList();
+        }
+
+
+
     }
 }

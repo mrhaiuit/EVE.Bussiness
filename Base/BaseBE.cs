@@ -63,7 +63,7 @@ namespace EVE.Bussiness
            return _uoW.Save();
         }
 
-        public bool Update(T obj)
+        public virtual bool Update(T obj)
         {
             _repository.Update(obj);
            return _uoW.Save();
