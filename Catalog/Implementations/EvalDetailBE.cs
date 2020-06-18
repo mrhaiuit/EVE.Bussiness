@@ -125,17 +125,6 @@ namespace EVE.Bussiness
             return result;
         }
 
-        public override bool Update(EvalDetail obj)
-        {
-            var objAvaiable = Get(p => p.EvalDetailId == obj.EvalDetailId);
-            if (objAvaiable != null && objAvaiable.Any())
-                return false;
-            
-
-            _repository.Insert(obj);
-            return _uoW.Save();
-        }
-
     }
 
     public class EvalResultCount
