@@ -229,22 +229,26 @@ namespace EVE.Bussiness
         {
             if (req == null)
                 return null;
-            var obj = (await GetAsync(c => c.BeEvalEmployeeId == req.EmployeeId
-                                        && c.EvalEmployeeId == req.EmployeeId
-                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0)))
-                                        .Select(p => new EvalMasterGetByUserIdRes()
-                                        {
-                                            MasterId = p.EvalMasterId,
-                                            Year = p.EvalPeriod?.Year,
-                                            FromDate = p.EvalPeriod.FromDate,
-                                            ToDate = p.EvalPeriod.ToDate,
-                                            Period = p.EvalPeriod.PeriodName,
-                                            TotalEval = p.EvalDetails.Where(q => !q.EvalResultCode.IsNullOrEmpty()).Count(),
-                                            EvalEmployee = p.Employee.EmployeeName,
-                                            BeEvalEmployee = p.Employee1.EmployeeName,
-                                            Approveed = p.IsFinal,
-                                            Class = p.EvalResultCode
-                                        });
+            var obj = from p in _uoW.Context.EvalMasters
+                      join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
+                      join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
+                      join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
+                      where (pe.Year == req.Year || req.Year == 0) && p.BeEvalEmployeeId == req.EmployeeId && p.EvalEmployeeId == req.EmployeeId
+                      select new EvalMasterGetByUserIdRes()
+                      {
+                          MasterId = p.EvalMasterId,
+                          Year = pe.Year,
+                          FromDate = pe.FromDate,
+                          ToDate = pe.ToDate,
+                          Period = pe.PeriodName,
+                          TotalEval = _uoW.Context.EvalDetails.Where(c => c.EvalMasterId == p.EvalMasterId && c.EvalResultCode != string.Empty).Count(),
+                          EvalEmployee = em1.EmployeeName,
+                          BeEvalEmployee = em2.EmployeeName,
+                          Approveed = p.IsFinal,
+                          Class = p.EvalResultCode
+                      };
+            if (!obj.Any())
+                return null;
 
             return obj.ToList();
         }
@@ -253,21 +257,30 @@ namespace EVE.Bussiness
         {
             if (req == null)
                 return null;
-            var obj = (await GetAsync(c => c.EvalEmployeeId == req.EmployeeId
-                                        && (c.EvalPeriod.Year == req.Year || req.Year == 0)))
-                                        .Select(p => new EvalMasterGetByUserIdRes()
-                                        {
-                                            MasterId = p.EvalMasterId,
-                                            Year = p.EvalPeriod?.Year,
-                                            FromDate = p.EvalPeriod.FromDate,
-                                            ToDate = p.EvalPeriod.ToDate,
-                                            Period = p.EvalPeriod.PeriodName,
-                                            TotalEval = p.EvalDetails.Where(q => !q.EvalResultCode.IsNullOrEmpty()).Count(),
-                                            EvalEmployee = p.Employee.EmployeeName,
-                                            BeEvalEmployee = p.Employee1.EmployeeName,
-                                            Approveed = p.IsFinal,
-                                            Class = p.EvalResultCode
-                                        }); ;
+
+            var obj = from p in _uoW.Context.EvalMasters
+                      join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
+                      join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
+                      join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId  
+                      where (pe.Year == req.Year || req.Year == 0)
+                            && p.EvalEmployeeId == req.EmployeeId 
+                            && em2.UserGroupCode == EnumUserGroup.SchoolTeacher
+                            && p.BeEvalEmployeeId != p.EvalEmployeeId
+                      select new EvalMasterGetByUserIdRes()
+                      {
+                          MasterId = p.EvalMasterId,
+                          Year = pe.Year,
+                          FromDate = pe.FromDate,
+                          ToDate = pe.ToDate,
+                          Period = pe.PeriodName,
+                          TotalEval = _uoW.Context.EvalDetails.Where(c => c.EvalMasterId == p.EvalMasterId && c.EvalResultCode != string.Empty).Count(),
+                          EvalEmployee = em1.EmployeeName,
+                          BeEvalEmployee = em2.EmployeeName,
+                          Approveed = p.IsFinal,
+                          Class = p.EvalResultCode
+                      };
+            if (!obj.Any())
+                return null;
 
             return obj.ToList();
         }
@@ -276,8 +289,12 @@ namespace EVE.Bussiness
         {
             var evalMaster = (from mt in (await GetAsync(p => p.EvalMasterId == req.EvalMasterId))
                              join p in EvalPeriodBE.GetAll() on mt.EvalPeriodId equals p.EvalPeriodId
-                             select new { mt.IsFinal, p.ToDate }).FirstOrDefault();
+                             select new {mt.BeEvalEmployeeId, mt.IsFinal, p.ToDate }).FirstOrDefault();
             if (evalMaster == null)
+                return false;
+            var printMaster = await GetAsync(p => p.BeEvalEmployeeId == evalMaster.BeEvalEmployeeId
+                                                && p.IsFinal == true);
+            if (printMaster.Any())
                 return false;
             if ((evalMaster.IsFinal ?? false) || DateTime.Now > evalMaster.ToDate.CheckDateEx())
                 return false;
