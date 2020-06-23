@@ -161,7 +161,7 @@ namespace EVE.Bussiness
         }
 
 
-        public async Task<string> GetEvalResult(EvalMasterBaseReq req)
+        public async Task<EvalResult> GetEvalResult(EvalMasterBaseReq req)
         {
             if (req == null)
                 return null;
@@ -171,7 +171,254 @@ namespace EVE.Bussiness
             var evalPeriod = _uoW.Context.EvalPeriods.FirstOrDefault(p => p.EvalPeriodId == evalMaster.EvalPeriodId);
             var schoolLevelCode = _uoW.Context.Schools.FirstOrDefault(p => p.SchoolId == evalPeriod.SchoolId)?.SchoolLevelCode;
 
-            return "";
+            var objDetails = from dt in _uoW.Context.EvalDetails
+                             join c in _uoW.Context.EvalCriterias on dt.EvalCriteriaId equals c.EvalCriteriaId
+                             join r in _uoW.Context.EvalResults on dt.EvalResultCode equals r.EvalResultCode into gr
+                             from r in gr.DefaultIfEmpty()
+                             where dt.EvalMasterId == req.EvalMasterId
+                             select new { c.EvalCriteriaCode, r.EvalResultCode, r.Idx };
+            var result = "";
+            if (evalPeriod.EvalTypeCode == EnumEvalType.Primary)
+            {
+                if (schoolLevelCode == EnumSchoolLevel.PrimarySchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+
+                        result = EnumEvalResult.Tot;
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                      && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                      && (objDetails.Where(p => p.Idx > 0 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Dat;
+
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+                else if (schoolLevelCode == EnumSchoolLevel.PresSchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+
+                        result = EnumEvalResult.Tot;
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                      && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                      && (objDetails.Where(p => p.Idx > 0 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Dat;
+
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+                else if (schoolLevelCode == EnumSchoolLevel.JuniorHighSchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+
+                        result = EnumEvalResult.Tot;
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                      && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                      && (objDetails.Where(p => p.Idx > 0 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Dat;
+
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+                if (schoolLevelCode == EnumSchoolLevel.HighSchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+
+                        result = EnumEvalResult.Tot;
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                      && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                      && (objDetails.Where(p => p.Idx > 0 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Dat;
+
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+
+            }
+            else if (evalPeriod.EvalTypeCode == EnumEvalType.Teacher)
+            {
+                if (schoolLevelCode == EnumSchoolLevel.PrimarySchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Tot;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Đạt
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count())
+                    {
+                        result = EnumEvalResult.Dat;
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+                else if (schoolLevelCode == EnumSchoolLevel.PresSchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Tot;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Đạt
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count())
+                    {
+                        result = EnumEvalResult.Dat;
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+                else if (schoolLevelCode == EnumSchoolLevel.JuniorHighSchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Tot;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Đạt
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count())
+                    {
+                        result = EnumEvalResult.Dat;
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+                else if (schoolLevelCode == EnumSchoolLevel.HighSchool)
+                {
+                    // EXC
+                    if (objDetails.Where(p => p.Idx > 1).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 1).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx == 3 &&
+                              "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Tot;
+
+                    }
+                    // Khá
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count()
+                       && objDetails.Where(p => p.Idx > 0).Count() / objDetails.Count() >= 2 / 3
+                       && (objDetails.Where(p => p.Idx > 1 &&
+                             "TC1,TC2,TC4,TC5,TC6,TC8,TC10,TC12,TC13,TC14".Contains(p.EvalCriteriaCode)).Count() > 9))
+                    {
+                        result = EnumEvalResult.Kha;
+
+                    }
+                    // Đạt
+                    else if (objDetails.Where(p => p.Idx > 0).Count() == objDetails.Count())
+                    {
+                        result = EnumEvalResult.Dat;
+                    }
+                    else result = EnumEvalResult.KhongDat;
+                }
+            }
+
+            return _uoW.Context.EvalResults.FirstOrDefault(p => p.EvalResultCode == result);
         }
 
 
@@ -276,9 +523,9 @@ namespace EVE.Bussiness
             var obj = from p in _uoW.Context.EvalMasters
                       join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
                       join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
-                      join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId  
+                      join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
                       where (pe.Year == req.Year || req.Year == 0)
-                            && p.EvalEmployeeId == req.EmployeeId 
+                            && p.EvalEmployeeId == req.EmployeeId
                             && em2.UserGroupCode == EnumUserGroup.SchoolTeacher
                             && p.BeEvalEmployeeId != p.EvalEmployeeId
                       select new EvalMasterGetByUserIdRes()
@@ -300,11 +547,11 @@ namespace EVE.Bussiness
             return obj.ToList();
         }
 
-       public async Task<bool> IsAllowEdit(EvalMasterBaseReq req)
+        public async Task<bool> IsAllowEdit(EvalMasterBaseReq req)
         {
             var evalMaster = (from mt in (await GetAsync(p => p.EvalMasterId == req.EvalMasterId))
-                             join p in EvalPeriodBE.GetAll() on mt.EvalPeriodId equals p.EvalPeriodId
-                             select new {mt.BeEvalEmployeeId, mt.IsFinal, p.ToDate }).FirstOrDefault();
+                              join p in EvalPeriodBE.GetAll() on mt.EvalPeriodId equals p.EvalPeriodId
+                              select new { mt.BeEvalEmployeeId, mt.IsFinal, p.ToDate }).FirstOrDefault();
             if (evalMaster == null)
                 return false;
             var printMaster = await GetAsync(p => p.BeEvalEmployeeId == evalMaster.BeEvalEmployeeId
