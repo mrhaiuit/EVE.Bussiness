@@ -160,6 +160,21 @@ namespace EVE.Bussiness
 
         }
 
+
+        public async Task<string> GetEvalResult(EvalMasterBaseReq req)
+        {
+            if (req == null)
+                return null;
+            var evalMaster = await GetById(req);
+            if (evalMaster == null)
+                return null;
+            var evalPeriod = _uoW.Context.EvalPeriods.FirstOrDefault(p => p.EvalPeriodId == evalMaster.EvalPeriodId);
+            var schoolLevelCode = _uoW.Context.Schools.FirstOrDefault(p => p.SchoolId == evalPeriod.SchoolId)?.SchoolLevelCode;
+
+            return "";
+        }
+
+
         public async Task<List<EvalDetail>> ExeEvalDetailByMasterId(ExeEvalDetailByMasterIdReq req)
         {
             if (req == null)
