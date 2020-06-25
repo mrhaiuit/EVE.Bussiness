@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Cache;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
+using EVE.Commons;
 using EVE.Data;
 
 namespace EVE.Bussiness
@@ -31,6 +33,21 @@ namespace EVE.Bussiness
         public async Task<List<EvalCriteria>> GetByStandardId(EvalStandardBaseReq req)
         {
             var obj = await GetAsync(c => c.EvalStandardId == req.EvalStandardId);
+            if (obj != null
+               && obj.Any())
+            {
+                return obj.ToList();
+            }
+
+            return null;
+        }
+
+        public async Task<List<EvalCriteria>> GetBySchoolLevel(GetByEvalTypeSchoolLevelReq req)
+        {
+            var obj =await Task.Run(() => from st in _uoW.Context.EvalStandards
+                                     join c in _uoW.Context.EvalCriterias on st.EvalStandardId equals c.EvalStandardId
+                                     where st.SchoolLevelCode == req.SchoolLevelCode && st.EvalTypeCode == EnumEvalType.Primary
+                                     select c);
             if (obj != null
                && obj.Any())
             {

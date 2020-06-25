@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Authentication.Request;
@@ -17,6 +18,11 @@ namespace EVE.Bussiness
                             ) : base(uoW)
         {
             UserGroupBE = userGroupBE;
+        }
+
+        public async Task<List<Employee>> GetSubPrincipals(SchoolBaseReq req)
+        {
+            return (await GetAsync(p => p.SchoolId == req.SchoolId && p.UserGroupCode == EnumUserGroup.SubSchoolPrimary))?.ToList();
         }
 
         public async Task<List<Employee>> GetByUserGroupEmployee(UserGroupEmployeeReq req)

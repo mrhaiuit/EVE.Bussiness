@@ -491,24 +491,24 @@ namespace EVE.Bussiness
         {
             if (req == null)
                 return null;
-            var obj = from p in _uoW.Context.EvalMasters
-                      join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
-                      join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
-                      join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
-                      where (pe.Year == req.Year || req.Year == 0) && p.BeEvalEmployeeId == req.EmployeeId && p.EvalEmployeeId == req.EmployeeId
-                      select new EvalMasterGetByUserIdRes()
-                      {
-                          MasterId = p.EvalMasterId,
-                          Year = pe.Year,
-                          FromDate = pe.FromDate,
-                          ToDate = pe.ToDate,
-                          Period = pe.PeriodName,
-                          TotalEval = _uoW.Context.EvalDetails.Where(c => c.EvalMasterId == p.EvalMasterId && c.EvalResultCode != string.Empty).Count(),
-                          EvalEmployee = em1.EmployeeName,
-                          BeEvalEmployee = em2.EmployeeName,
-                          Approveed = p.IsFinal,
-                          Class = p.EvalResultCode
-                      };
+            var obj = await Task.Run(() => from p in _uoW.Context.EvalMasters
+                                           join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
+                                           join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
+                                           join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
+                                           where (pe.Year == req.Year || req.Year == 0) && p.BeEvalEmployeeId == req.EmployeeId && p.EvalEmployeeId == req.EmployeeId
+                                           select new EvalMasterGetByUserIdRes()
+                                           {
+                                               MasterId = p.EvalMasterId,
+                                               Year = pe.Year,
+                                               FromDate = pe.FromDate,
+                                               ToDate = pe.ToDate,
+                                               Period = pe.PeriodName,
+                                               TotalEval = _uoW.Context.EvalDetails.Where(c => c.EvalMasterId == p.EvalMasterId && c.EvalResultCode != string.Empty).Count(),
+                                               EvalEmployee = em1.EmployeeName,
+                                               BeEvalEmployee = em2.EmployeeName,
+                                               Approveed = p.IsFinal,
+                                               Class = p.EvalResultCode
+                                           });
             if (!obj.Any())
                 return null;
 
@@ -520,27 +520,27 @@ namespace EVE.Bussiness
             if (req == null)
                 return null;
 
-            var obj = from p in _uoW.Context.EvalMasters
-                      join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
-                      join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
-                      join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
-                      where (pe.Year == req.Year || req.Year == 0)
-                            && p.EvalEmployeeId == req.EmployeeId
-                            && em2.UserGroupCode == EnumUserGroup.SchoolTeacher
-                            && p.BeEvalEmployeeId != p.EvalEmployeeId
-                      select new EvalMasterGetByUserIdRes()
-                      {
-                          MasterId = p.EvalMasterId,
-                          Year = pe.Year,
-                          FromDate = pe.FromDate,
-                          ToDate = pe.ToDate,
-                          Period = pe.PeriodName,
-                          TotalEval = _uoW.Context.EvalDetails.Where(c => c.EvalMasterId == p.EvalMasterId && c.EvalResultCode != string.Empty).Count(),
-                          EvalEmployee = em1.EmployeeName,
-                          BeEvalEmployee = em2.EmployeeName,
-                          Approveed = p.IsFinal,
-                          Class = p.EvalResultCode
-                      };
+            var obj = await Task.Run(() => from p in _uoW.Context.EvalMasters
+                                           join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
+                                           join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
+                                           join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
+                                           where (pe.Year == req.Year || req.Year == 0)
+                                                 && p.EvalEmployeeId == req.EmployeeId
+                                                 && em2.UserGroupCode == EnumUserGroup.SchoolTeacher
+                                                 && p.BeEvalEmployeeId != p.EvalEmployeeId
+                                           select new EvalMasterGetByUserIdRes()
+                                           {
+                                               MasterId = p.EvalMasterId,
+                                               Year = pe.Year,
+                                               FromDate = pe.FromDate,
+                                               ToDate = pe.ToDate,
+                                               Period = pe.PeriodName,
+                                               TotalEval = _uoW.Context.EvalDetails.Where(c => c.EvalMasterId == p.EvalMasterId && c.EvalResultCode != string.Empty).Count(),
+                                               EvalEmployee = em1.EmployeeName,
+                                               BeEvalEmployee = em2.EmployeeName,
+                                               Approveed = p.IsFinal,
+                                               Class = p.EvalResultCode
+                                           });
             if (!obj.Any())
                 return null;
 

@@ -7,6 +7,7 @@ namespace EVE.Bussiness
 {
     public interface IEvalCriteriaBE : IBaseBE<EvalCriteria>
     {
+        Task<List<EvalCriteria>> GetBySchoolLevel(GetByEvalTypeSchoolLevelReq req);
         Task<EvalGuide> GetGuideOfCriteria(GetGuideOfCriteriaReq req);
         Task<EvalCriteria> GetById(EvalCriteriaBaseReq req);
         Task<List<EvalCriteria>> GetByStandardId(EvalStandardBaseReq req);

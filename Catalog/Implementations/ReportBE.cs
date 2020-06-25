@@ -18,19 +18,19 @@ namespace EVE.Bussiness
 
         public async Task<List<usp_rpt_BM02_Result>> rptBm02(BM2Req req)
         {
-            var result = unitOfWork.Context.usp_rpt_BM02(req.PeriodId, req.EmployeeId);
+            var result = await Task.Run(() => unitOfWork.Context.usp_rpt_BM02(req.PeriodId, req.EmployeeId));
             return result;
         }
 
         public async Task<List<usp_rpt_BM04_Result>> rptBm04(BM4Req req)
         {
-            var result = unitOfWork.Context.usp_rpt_BM04(req.SchoolId, req.PeriodId);
+            var result = await Task.Run(() => unitOfWork.Context.usp_rpt_BM04(req.SchoolId, req.PeriodId));
             return result;
         }
 
         public async Task<List<usp_rpt_BM05_Result>> rptBm05(EvalPeriodBaseReq req)
         {
-            var result = unitOfWork.Context.usp_rpt_BM05( req.EvalPeriodId);
+            var result = await Task.Run(() => unitOfWork.Context.usp_rpt_BM05(req.EvalPeriodId));
             return result;
         }
 
