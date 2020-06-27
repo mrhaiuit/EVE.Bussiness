@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
+using EVE.ApiModels.Catalog.Response;
 using EVE.Data;
 
 namespace EVE.Bussiness
@@ -25,9 +26,23 @@ namespace EVE.Bussiness
             return null;
         }
 
-        public async Task<List<SubPrincipalCriteria>> GetByEmployeeAndPeriod(GetByEmployeeAndPeriodReq req)
+        public async Task<List<SubPrincipalEmployeeAndPeriodRes>> GetByEmployeeAndPeriod(GetByEmployeeAndPeriodReq req)
         {
-            var obj = await GetAsync(c => c.EvalPeriodId == req.EvalPeriodId && c.SubPrincipalId == req.SubPrincipalId);
+            var obj = from s in _uoW.Context.SubPrincipalCriterias
+                      join dt in _uoW.Context.EvalCriterias on s.EvalCriteriaId equals dt.EvalCriteriaId
+                      join mt in _uoW.Context.EvalStandards on dt.EvalStandardId equals mt.EvalStandardId
+                      where s.EvalPeriodId == req.EvalPeriodId && s.SubPrincipalId == req.SubPrincipalId
+                      select new SubPrincipalEmployeeAndPeriodRes
+                      {
+                          EvalCriteriaId = s.EvalCriteriaId,
+                          EvalPeriodId = s.EvalPeriodId,
+                          EvalCriteriaName = dt.EvalCriteriaName,
+                          EvalStandardName = mt.EvalStandardName,
+                          Idx = dt.Idx ?? 0,
+                          SubPrincipalId = s.SubPrincipalId
+                      };
+
+               // await GetAsync(c => c.EvalPeriodId == req.EvalPeriodId && c.SubPrincipalId == req.SubPrincipalId);
             if (obj != null
                && obj.Any())
             {
