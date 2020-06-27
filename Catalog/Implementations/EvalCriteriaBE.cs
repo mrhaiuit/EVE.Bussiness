@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Cache;
 using System.Threading.Tasks;
 using EVE.ApiModels.Catalog;
+using EVE.ApiModels.Catalog.Response;
 using EVE.Commons;
 using EVE.Data;
 
@@ -42,12 +43,21 @@ namespace EVE.Bussiness
             return null;
         }
 
-        public async Task<List<EvalCriteria>> GetBySchoolLevel(GetByEvalTypeSchoolLevelReq req)
+        public async Task<List<EvalCriteriaSchoolLevelRes>> GetBySchoolLevel(GetByEvalTypeSchoolLevelReq req)
         {
-            var obj =await Task.Run(() => from st in _uoW.Context.EvalStandards
-                                     join c in _uoW.Context.EvalCriterias on st.EvalStandardId equals c.EvalStandardId
-                                     where st.SchoolLevelCode == req.SchoolLevelCode && st.EvalTypeCode == EnumEvalType.Primary
-                                     select c);
+            var obj = await Task.Run(() => from st in _uoW.Context.EvalStandards
+                                           join c in _uoW.Context.EvalCriterias on st.EvalStandardId equals c.EvalStandardId
+                                           where st.SchoolLevelCode == req.SchoolLevelCode && st.EvalTypeCode == EnumEvalType.Primary
+                                           select new EvalCriteriaSchoolLevelRes
+                                           {
+                                               Active = c.Active,
+                                               EvalCriteriaCode = c.EvalCriteriaCode,
+                                               EvalCriteriaId = c.EvalCriteriaId,
+                                               EvalCriteriaName = c.EvalCriteriaName,
+                                               EvalStandardId=c.EvalStandardId,
+                                               EvalStandardName=st.EvalStandardName
+                                               
+                                           });
             if (obj != null
                && obj.Any())
             {
