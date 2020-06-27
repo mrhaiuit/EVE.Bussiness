@@ -8,6 +8,7 @@ namespace EVE.Bussiness
 {
     public interface IEmployeeBE : IBaseBE<Employee>
     {
+        Task<List<Employee>> GetAllPrincipals(SchoolBaseReq req);
         Task<List<Employee>> GetSubPrincipals(SchoolBaseReq req);
         Task<Employee> GetByUserName(UserNameReq req);
         Task<Employee> GetByUserName(string userName);

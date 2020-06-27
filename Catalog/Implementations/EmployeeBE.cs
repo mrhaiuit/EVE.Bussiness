@@ -25,6 +25,14 @@ namespace EVE.Bussiness
             return (await GetAsync(p => p.SchoolId == req.SchoolId && p.UserGroupCode == EnumUserGroup.SubSchoolPrimary))?.ToList();
         }
 
+
+        public async Task<List<Employee>> GetAllPrincipals(SchoolBaseReq req)
+        {
+            return (await GetAsync(p => p.SchoolId == req.SchoolId
+            && (p.UserGroupCode == EnumUserGroup.SubSchoolPrimary || p.UserGroupCode == EnumUserGroup.SchoolPrimary)
+            ))?.ToList();
+        }
+
         public async Task<List<Employee>> GetByUserGroupEmployee(UserGroupEmployeeReq req)
         {
             var userGroup = await UserGroupBE.GetById(new UserGroupBaseReq() { UserGroupCode = req.UserGroupCode });

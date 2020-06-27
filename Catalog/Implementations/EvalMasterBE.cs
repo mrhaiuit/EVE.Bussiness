@@ -462,8 +462,20 @@ namespace EVE.Bussiness
                 && p.SchoolLevelCode == school.SchoolLevelCode))?.Select(p => p.EvalStandardId).ToList();
                 if (evalStandard == null)
                     return null;
-                var caterials = await EvalCriteriaBE.GetAsync(p => p.Active != false
-                                                                    && evalStandard.Contains(p.EvalStandardId ?? 0));
+                var caterials = (await EvalCriteriaBE.GetAsync(p => p.Active != false && evalStandard.Contains(p.EvalStandardId ?? 0)))?.ToList();
+                var subPrincipal = _uoW.Context.Employees.FirstOrDefault(p => p.EmployeeId == req.BeEvalEmployeeId); 
+                if(subPrincipal !=null 
+                    && subPrincipal.UserGroupCode == EnumUserGroup.SubSchoolPrimary) // nếu là hiệu phó thì lấy tiêu chí khác
+                {
+                    caterials = (from s in _uoW.Context.SubPrincipalCriterias
+                                 join c in _uoW.Context.EvalCriterias on s.EvalCriteriaId equals c.EvalCriteriaId
+                                 where c.Active != false && s.EvalPeriodId == req.PeriodId && s.SubPrincipalId == req.BeEvalEmployeeId
+                                 select c)?.ToList();
+
+                }    
+             
+
+
                 if (caterials == null)
                     return null;
                 foreach (var item in caterials)
@@ -495,7 +507,9 @@ namespace EVE.Bussiness
                                            join pe in _uoW.Context.EvalPeriods on p.EvalPeriodId equals pe.EvalPeriodId
                                            join em1 in _uoW.Context.Employees on p.EvalEmployeeId equals em1.EmployeeId
                                            join em2 in _uoW.Context.Employees on p.BeEvalEmployeeId equals em2.EmployeeId
-                                           where (pe.Year == req.Year || req.Year == 0) && p.BeEvalEmployeeId == req.EmployeeId && p.EvalEmployeeId == req.EmployeeId
+                                           where (pe.Year == req.Year || req.Year == 0) 
+                                                   && p.BeEvalEmployeeId == req.EmployeeId 
+                                                   && p.EvalEmployeeId == req.EmployeeId
                                            select new EvalMasterGetByUserIdRes()
                                            {
                                                MasterId = p.EvalMasterId,
